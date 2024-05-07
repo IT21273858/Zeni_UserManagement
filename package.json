@@ -4,6 +4,7 @@
   "description": "E-Learning application - User Functionalities (Backend) made using Microservice Architecture ",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
