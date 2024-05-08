@@ -38,6 +38,7 @@ router.route('/user/create').post((req, res) => {
         email: req.body.email,
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
+        profile_img:req.body.profile_img,
         Role: req.body.Role,
         v_Status: req.body.v_Status
     }
@@ -71,6 +72,7 @@ router.route('/user/update/:id').patch((req, res) => {
         email: req.body.email,
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
+        profile_img:req.body.profile_img,
         Role: req.body.Role,
         v_Status: req.body.v_Status
     }
