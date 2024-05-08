@@ -32,11 +32,13 @@ model User {
   email        String       @unique
   password     String?
   phoneNumber  String?
+  profile_img String?
   Role         UserRole     @default(Learner)
   v_Status     Boolean      @default(false)
   c_Instructor Course[]
   enrollment   Enrollment[]
   payment      Payment[]
+  feedback     Feedback[]
   // address     Address?
   // posts       Post[]
 }
@@ -58,9 +60,9 @@ model Course {
   visibility     Boolean      @default(false)
   c_Instructor   User         @relation(fields: [c_InstructorId], references: [id])
   c_InstructorId String       @db.ObjectId
-  feedback       String?
   enrollment     Enrollment[]
   payment        Payment[]
+  feedback       Feedback[]
 }
 
 model Enrollment {
@@ -85,6 +87,15 @@ model Payment {
   courseId     String     @db.ObjectId
   enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
   enrollmentId String     @db.ObjectId
+}
+
+model Feedback {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  feedback String
+  user     User?   @relation(fields: [userId], references: [id])
+  userId   String  @db.ObjectId
+  course   Course? @relation(fields: [courseId], references: [id])
+  courseId String? @db.ObjectId
 }
 
 // Address is an embedded document
