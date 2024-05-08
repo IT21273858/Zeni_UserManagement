@@ -51,6 +51,7 @@ model Course {
   id             String       @id @default(auto()) @map("_id") @db.ObjectId
   c_name         String?
   c_description  String?
+  c_thumbnail    String?
   module         Module[]
   rating         String?
   classification String?      @default("Free")
