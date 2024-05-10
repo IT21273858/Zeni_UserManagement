@@ -4,11 +4,7 @@ const router = express.Router();
 const { PrismaClient, Prisma } = require('@prisma/client')
 const prisma = new PrismaClient();
 
-
-// User route
-
-
-
+// Get all Users
 router.route('/user/getAll').get((req, res) => {
     try {
         prisma.user.findMany({
@@ -32,13 +28,15 @@ router.route('/user/getAll').get((req, res) => {
     }
 })
 
+
+// Create a user
 router.route('/user/create').post((req, res) => {
     const data = {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
-        profile_img:req.body.profile_img,
+        profile_img: req.body.profile_img,
         Role: req.body.Role,
         v_Status: req.body.v_Status
     }
@@ -64,7 +62,7 @@ router.route('/user/create').post((req, res) => {
         });
 });
 
-
+// Update user information
 router.route('/user/update/:id').patch((req, res) => {
     const _id = req.params.id
     const data = {
@@ -72,7 +70,7 @@ router.route('/user/update/:id').patch((req, res) => {
         email: req.body.email,
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
-        profile_img:req.body.profile_img,
+        profile_img: req.body.profile_img,
         Role: req.body.Role,
         v_Status: req.body.v_Status
     }
@@ -96,6 +94,7 @@ router.route('/user/update/:id').patch((req, res) => {
     }
 });
 
+// Delete User
 router.route('/user/delete/:id').delete((req, res) => {
     const _id = req.params.id
     try {
@@ -140,6 +139,7 @@ router.route('/user/get/:id').get((req, res) => {
     }
 });
 
+// Login Functionality
 router.route('/user/login').post((req, res) => {
     try {
         prisma.user.findUnique({
@@ -149,10 +149,10 @@ router.route('/user/login').post((req, res) => {
             }
         }).then((data) => {
             if (data) {
-                console.log("Data",data);
+                console.log("Data", data);
                 const token = generateToken(data.id);
-                console.log("Token",token);
-                res.status(200).json({ status: true, message: "Login sucessful", user: data, role: data.Role, token:token, code: "200" })
+                console.log("Token", token);
+                res.status(200).json({ status: true, message: "Login sucessful", user: data, role: data.Role, token: token, code: "200" })
             }
             else {
                 res.status(404).json({ status: false, message: "Login Unsucessfull", code: "404" })
@@ -165,28 +165,13 @@ router.route('/user/login').post((req, res) => {
 // Generating JWT Token for successful login
 function generateToken(userId) {
     const crypto = require("crypto");
-  
+
     // Generate a random secret key
     const secretKey = crypto.randomBytes(32).toString("hex");
     // Expires in 1 Hour
     const expiresIn = "1h";
-  
+
     return jwt.sign({ userId }, secretKey, { expiresIn });
-  }
-
-// Learner route
-
-
-router.route('/learner/getAll').get();
-
-router.route('/learner/create').post();
-
-router.route('/learner/update/:id').patch();
-
-router.route('/learner/delete/:id').delete();
-
-router.route('/learner/get/:id').get();
-
-router.route('/learner/login').post();
+}
 
 module.exports = router;
